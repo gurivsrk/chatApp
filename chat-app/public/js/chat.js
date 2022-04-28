@@ -8,14 +8,18 @@ const socket = io()
 
 socket.on('message',(message)=>{
     const html = Mustache.render(messageTemplate,{
-        message
+        text:message.text,
+        createdAt:moment(message.createdAt).format('h:mm:s a')
     })
     $messages.insertAdjacentHTML('beforeend',html)
 })
 
 socket.on('locationMessage', (loc)=>{
     console.log(loc)
-    const html = Mustache.render(locationTemplate,{loc})
+    const html = Mustache.render(locationTemplate,{
+        url:loc.url,
+        createdAt: moment(loc.createdAt).format('h:mm:s a')
+    })
     $messages.insertAdjacentHTML('beforeend',html)
 })
 
