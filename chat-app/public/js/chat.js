@@ -6,6 +6,8 @@ const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 const socket = io()
 
+const {username, room }= Qs.parse(location.search,{ignoreQueryPrefix:true})
+
 socket.on('message',(message)=>{
     const html = Mustache.render(messageTemplate,{
         text:message.text,
@@ -57,6 +59,16 @@ document.querySelector('#sendLocation').addEventListener('click',(e)=>{
     })
 
 })
+
+socket.emit('join', { username, room }, (error)=>{
+   if(error) { 
+       alert(error)
+       location.href = '/'
+   }
+})
+
+
+
 // navigator.geolocation.getCurrentPosition((position) => {
 //     //console.log(position);
     
